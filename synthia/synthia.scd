@@ -15,7 +15,7 @@ s.meter;
 s.freqscope;
 s.scope;
 );
-~img_print = Image.open("/Users/amimid/Desktop/synthia/image1.jpg");///////////////paste image image1.jpg
+~img_print = Image.open("/Users/amimid/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synthia/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
 Tdef(\drone, {
 //~controlBus = Bus.control(s, 1);
@@ -37,6 +37,7 @@ Tdef(\drone, {
 ~el=[45.neg.degrad,45.neg.degrad,45.neg.degrad,45.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
 	45.degrad,45.degrad,45.degrad,45.degrad];
 )*/
+			(
 {
 var  sph1,sph2,az1=0,el1=0,az2=0,el2=0,angle=0;
 var silver_r=(1+2.sqrt),mag1=1,mag2=1,azimuth,elevation;
@@ -58,6 +59,7 @@ angle=(angle+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
 az1=0;el1=0;az2=0;el2=0;
 }
 }.value;
+			);
 ~vertices=1024;
 {
 var timbre,raz,rel,difaz,difel,nn=1.neg,n;
@@ -73,7 +75,6 @@ n=n+1;
 };
 }.value;
 );
-
 
 (
 ~n=1.neg;~array=992.collect{~n=~n+1;2.pow(~n/992)};
@@ -516,7 +517,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 )}.value);
 );
 
-~gain=1;~drive=0;~c=0;~az=0;~el=0;~attack=0.01;~decay=1;
+~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;
 ~incr1=0;~incr2=0;~ssc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
 ~incr=0;~ssc=26;~mix=0;
 ~seq= Pseq(~dur ,inf).asStream;
