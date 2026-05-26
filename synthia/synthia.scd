@@ -171,6 +171,10 @@ SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2),mix,1);
 sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1024).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3),mix,1);
 
+sig1=(sig1*mix.linlin(0,1,1,4)).softclip;
+sig2=(sig2*mix.linlin(0,1,1,4)).softclip;
+sig3=(sig3*mix.linlin(0,1,1,4)).softclip;
+
 /*a1=(1/4).rand2;a2=(1/4).rand2;a3=(1/4).rand2;a4=(1/4).rand2;
 a5=(1/4).rand2;a6=(1/4).rand2;a7=(1/4).rand2;a8=(1/4).rand2;
 a9=(1/4).rand2;a10=(1/4).rand2;a11=(1/4).rand2;a12=(1/4).rand2;
