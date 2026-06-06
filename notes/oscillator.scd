@@ -68,7 +68,7 @@ Buffer.freeAll;
 ~w= Buffer.alloc(s,~bufferSize);
 		{
 	var signal,wt;
-	signal=Signal.sineFill(~signalSize,~array,~ph);
+	signal=Signal.sineFill(~signalSize,~array,[pi]);
 
 wt = signal.asWavetable;
 ~w.loadCollection(wt);
@@ -76,13 +76,12 @@ signal.plot;
 		}.value;
 )
 
-
 (
 {
-	var freq=6*32, b=1,f=1,rz=10000,amp=1;
+	var freq=6*32, b=1,f=16,rz=1000,amp=1;
 
-Out.ar(0,LPF.ar((Osc.ar(~w.bufnum,freq,phase:0.degrad,mul:rz).abs*SinOsc.ar(freq,phase:0.degrad)),freq*f.round(1),amp));
-Out.ar(1,LPF.ar((Osc.ar(~w.bufnum,freq,phase:90.degrad,mul:rz).abs*SinOsc.ar(freq,phase:90.degrad)),freq*f.round(1),amp));
+	Out.ar(0,BPF.ar((Osc.ar(~w.bufnum,freq,phase:0.degrad,mul:rz).abs*SinOsc.ar(freq,phase:0.degrad)),freq,f,amp));
+Out.ar(1,BPF.ar((Osc.ar(~w.bufnum,freq,phase:90.degrad,mul:rz).abs*SinOsc.ar(freq,phase:90.degrad)),freq,f,amp));
 }.play;
 )
 
@@ -110,6 +109,50 @@ Out.ar(1,LPF.ar((Osc.ar(~w.bufnum,freq,phase:90.degrad,mul:rz).abs*SinOsc.ar(fre
 }.play;
 )
 
+
+
+
+
+////////////////LEAF
+(
+{Out.ar(0,(LFSaw.ar(220,1)*0.1.neg).abs)}.play;
+{Out.ar(0,(LFSaw.ar(220,1)*0.1))}.play
+)
+
+(
+{Out.ar(0,(LFSaw.ar(220,1)*0.1.neg).abs*(LFSaw.ar(220,1)*0.1))}.play;
+)
+
+(
+{Out.ar(0,(SinOsc.ar(220,0)*0.1.neg).abs)}.play;
+{Out.ar(0,(SinOsc.ar(220,0)*0.1))}.play;
+{Out.ar(1,(SinOsc.ar(220,0)*0.1.neg).abs.neg)}.play;
+{Out.ar(1,(SinOsc.ar(220,0)*0.1).neg)}.play
+)
+
+(
+{
+    var a = SinOsc.ar(220, 0)  * 0.05 + 0.05;
+    var b = SinOsc.ar(220, pi) * 0.05 + 0.05;
+
+    Out.ar(0, a);
+    Out.ar(1, b);
+}.play;
+)
+
+(
+{
+    var a = LFSaw.ar(220, 0,0.05.neg).abs + 0.05;
+	var a1 = LFSaw.ar(220, 0)  * 0.05;
+    var b = LFSaw.ar(220, 0,0.05.neg).abs + 0.05;
+	var b1 = LFSaw.ar(220, 0) * 0.05;
+
+    Out.ar(0, a);
+    Out.ar(1, b);
+	Out.ar(0, a1);
+    Out.ar(1, b1);
+}.play;
+)
 
 
 /*///additive synthesis
