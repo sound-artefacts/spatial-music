@@ -18,7 +18,7 @@
 
 )
 
-
+////////////////////////////////////////////////////////////////////////////
 (
 ~signal = Signal.sineFill(~signalSize, ~array, [0]);
 
@@ -47,11 +47,31 @@
 
 ~env.plot;
 )
+////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////
 
+(
+var peak, times,signal,rip,enva,attack=1,dicay=4;
+
+signal = Signal.sineFill(~signalSizee, ~arraye, [0]);
+signal = signal.rotate(signal.size div: 2);
+peak = signal.abs.maxIndex.max(1);
+rip = Env.perc(0.5,0.5).asSignal(~signalSizee);
+rip = rip * (1 + (signal / 3));
+rip = rip.normalize;
+peak = peak.min(signal.size - 2).max(1);
+times =Array.fill(peak, attack / peak) ++ Array.fill(signal.size - peak - 1, dicay / (signal.size - peak - 1));
+enva = Env(rip.asArray, times).plot;
+)
+
+
+//////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 (
 var attack = 0.1;
 var decay  = 1;
 var peak, times;
+
 
 ~signal = Signal.sineFill(~signalSize, ~array, [0]);
 
@@ -82,7 +102,9 @@ times =
 
 ~env.plot;
 )
+//////
 
+////////////////////////////////////////////////////////////
 (
 var attack = 0.1;
 var decay  = 1;
