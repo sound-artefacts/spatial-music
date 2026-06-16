@@ -6,6 +6,7 @@
 );
 
 (
+
 ~signal = Signal.sineFill(~signalSize, ~array, [0]);
 
 ~env = Env(
@@ -31,10 +32,59 @@
 
 ~env.plot;
 )
+(
+~signal = Signal.sineFill(~signalSize, ~array, [0]);
+~signal = ~signal.rotate(~signal.size/2);
 
+~rip = Env([0,1,0],[1,1],[4,-4]).asSignal(~signal.size);
+
+~rip = ~rip * (1 + (~signal /1));
+~rip=~rip.normalize;
+~env = Env(
+    ~rip.asArray,
+    Array.fill(~rip.size - 1, 1 / (~rip.size - 1))
+);
+
+~env.plot;
+)
 
 (
-var attack = 1;
+var attack = 0.1;
+var decay  = 1;
+var peak, times;
+
+~signal = Signal.sineFill(~signalSize, ~array, [0]);
+
+// center the transient approximately
+~signal = ~signal.rotate(~signal.size/2);
+
+// find actual transient position
+peak = ~signal.abs.maxIndex;
+~rip = Env([0,1,0],[1,1],[4,-4]).asSignal(~signal.size);
+
+~rip = ~rip * (1 + (~signal /1));
+~rip=~rip.normalize;
+times =
+    Array.fill(
+        peak,
+        attack / peak
+    )
+    ++
+    Array.fill(
+        ~rip.size - peak - 1,
+        decay / (~rip.size - peak - 1)
+    );
+
+~env = Env(
+    ~rip.asArray,
+    times
+);
+
+~env.plot;
+)
+
+(
+var attack = 0.1;
 var decay  = 1;
 var peak, times;
 
