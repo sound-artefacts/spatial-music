@@ -36,7 +36,7 @@
 ~signal = Signal.sineFill(~signalSize, ~array, [0]);
 ~signal = ~signal.rotate(~signal.size/2);
 
-~rip = Env([0,1,0],[1,1],[4,-4]).asSignal(~signal.size);
+~rip = Env([0,1,0],[0.1,1],[4,-4]).asSignal(~signal.size);
 
 ~rip = ~rip * (1 + (~signal /1));
 ~rip=~rip.normalize;
@@ -60,9 +60,9 @@ var peak, times;
 
 // find actual transient position
 peak = ~signal.abs.maxIndex;
-~rip = Env([0,1,0],[1,1],[4,-4]).asSignal(~signal.size);
+~rip = Env([0,1,0],[attack,decay],[4,-4]).asSignal(~signal.size);
 
-~rip = ~rip * (1 + (~signal /1));
+~rip = ~rip * (1 + (~signal /5));
 ~rip=~rip.normalize;
 times =
     Array.fill(
