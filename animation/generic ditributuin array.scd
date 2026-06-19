@@ -8,7 +8,7 @@ var r1,harm1,r2,harm2,rad,call,mk=50;
 
 1.do{
 
-data = (128*32).collect{
+data = (16*32).collect{
 
 	az=~az.[pl];
 	el=~el.[pl];
@@ -18,7 +18,7 @@ data = (128*32).collect{
 		 mag=~magz.[pl];
 	pl=pl+1;
 			mk=(mk+(1200-(1200/1.6180339887499))).wrap(0,1200);
-		sph=Spherical(mag*mk/1.2,az,el).asCartesian.asArray;
+		sph=Spherical(1000,az,el).asCartesian.asArray;
 };
 	//pl=0;
 	//mk=(mk+(1200-(1200/1.6180339887499))).wrap(0,1200);
@@ -48,10 +48,11 @@ a.drawMethod = \fillRect;
 a.symbolSize = 1;
 a.symbolColor = Color.white;
 a.background = Color.black;
+a.rot(0.5pi,0,0);
 
 // Y Slider
 Slider(w, Rect(820, 10, 10, 450)).action_{|me|
-    a.rotY = me.value * 2pi;
+    a.rotY =( me.value * 2pi).postln;
     w.refresh;
 };
 // X Slider
@@ -72,7 +73,7 @@ Slider(w, Rect(920, 10, 10, 450)).action_{|me|
 var data;
 var az=0,el=0,gold_r=((1+5.sqrt)/2);
 var sph,az1,el1,pl=0,mag;
-var run = true, ot=0,size=50;
+var run = true, ot=0,size=800,an1,an2;
 ~data=[];
 
 9.do{
@@ -88,10 +89,11 @@ data = (32*16).collect{
 		// mag=~magz.[pl];
 	pl=pl+1;
 
-		sph=Spherical(mag*size,az,el).asCartesian.asArray;
+		sph=Spherical(size,az,el.wrap((pi/11).neg,(pi/11))).asCartesian;
+		sph=sph.rotateYZ(0.5pi).asArray;
 };
 	pl=0;
-	size=size+(size-(size/gold_r));
+	//size=size+(size-(size/gold_r));
 	~data=~data++data;
 };
 
@@ -103,17 +105,17 @@ a.drawMethod = \fillRect;
 a.symbolSize = 1;
 a.symbolColor = Color.white;
 a.background = Color.black;
-
 ~v.animate;
 ~v.drawFunc ={
 Pen.translate(400,400);
 
-		a.rot(ot,ot,ot);
+
+		ot=ot+3.degrad;
+			a.rot(0.1pi,ot,0);
     ~v.refresh;
 
-		ot=ot+1.degrad;
-
 };
+
 { while { run } {~v.background_(Color.black); ~v.refresh; (1/1000).wait } }.fork(AppClock);
 )
 
