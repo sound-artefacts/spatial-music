@@ -89,7 +89,7 @@ data = (32*16).collect{
 		// mag=~magz.[pl];
 	pl=pl+1;
 
-		sph=Spherical(size,az,el.wrap((pi/11).neg,(pi/11))).asCartesian;
+		sph=Spherical(size*mag,az,el).asCartesian;
 		sph=sph.rotateYZ(0.5pi).asArray;
 };
 	pl=0;
@@ -122,8 +122,8 @@ Pen.translate(400,400);
 
 /////////////
 (
-{
-var  sph1,sph2,sph3,sph4,sph5,sph6,sph7,m_x=9,m_y=9,m_z=9,qx,qy,mq=m_x-1;
+{~magz
+var  sph1,sph2,sph3,sph4,sph5,sph6,sph7,m_x=3,m_y=3,m_z=4,qx,qy,mq=m_x-1;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z,mag_qx,mag_qy;
 var az4=0,el4=0,az5=0,el5=0,az6=0,el6=0,az7=0,el7=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez,angle=0,n=12;
